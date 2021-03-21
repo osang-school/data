@@ -74,9 +74,12 @@ func CrawlList(url Url, page uint) ([]*List, error) {
 				newItem.Number = uint(val)
 			case 1:
 				title, _ := s.Find("a").First().Attr("title")
+				newItem.Title = title
 				onclick, _ := s.Find("a").First().Attr("onclick")
 				idStr := strings.Split(onclick, "'")
-				newItem.Title = title
+				if len(idStr) < 4 {
+					return
+				}
 				id, _ := strconv.Atoi(idStr[3])
 				newItem.ID = uint(id)
 			case 2:
@@ -109,6 +112,10 @@ func CrawlPage(url Url, id uint) (*Detail, error) {
 	result := &Detail{
 		ID: id,
 	}
+	doc.Find("input[name=\"bdSubject\"]").Each(func(i int, s *goquery.Selection) {
+		val, _ := s.Attr("value")
+		result.Title = val
+	})
 	doc.Find(".viewBox p").Each(func(i int, s *goquery.Selection) {
 		txt := strings.ReplaceAll(s.Text(), "<br>", "")
 		result.Content += txt + "\n"

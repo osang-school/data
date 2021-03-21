@@ -1,14 +1,18 @@
 package osangdata
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestCrawl(t *testing.T) {
-	result, err := CrawlList(UrlNotice, 1)
+	result, err := CrawlList(UrlRule, 1)
 	if err != nil {
 		t.Fatal(err)
 	}
 	t.Logf("list: %+v\n", result[0])
-	detail, err := CrawlPage(UrlNotice, result[0].ID)
+	fmt.Println(result[0].ID)
+	detail, err := CrawlPage(UrlRule, result[0].ID)
 	if err != nil {
 		t.Fatal(err)
 		return
