@@ -1,7 +1,6 @@
 package osangdata
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -11,8 +10,7 @@ func TestCrawl(t *testing.T) {
 		t.Fatal(err)
 	}
 	t.Logf("list: %+v\n", result[0])
-	fmt.Println(result[0].ID)
-	detail, err := CrawlPage(UrlRule, result[0].ID)
+	detail, err := CrawlPage(UrlNotice, 196655955)
 	if err != nil {
 		t.Fatal(err)
 		return

@@ -122,7 +122,10 @@ func CrawlPage(url Url, id uint) (*Detail, error) {
 	})
 	doc.Find(".viewBox img").Each(func(i int, s *goquery.Selection) {
 		src, _ := s.Attr("src")
-		result.Images = append(result.Images, "http://school.gyo6.net"+src)
+		if strings.HasPrefix(src, "/board") {
+			src = "https://school.gyo6.net" + src
+		}
+		result.Images = append(result.Images, src)
 	})
 	doc.Find(".infoBox li").Each(func(i int, s *goquery.Selection) {
 		switch i {
